@@ -1,0 +1,15 @@
+<div>
+  <%- include('layout.ejs') %>
+  <h1><%= title %></h1>
+  <ul>
+    <% for(let author of author_list) { %>
+    <li>
+      <a href="author.url"
+        ><%= author.name %> | <%= author.birth_formatted %> - <%=
+        author.death_formatted == 'Invalid DateTime' ? 'alive' :
+        author.death_formatted %></a
+      >
+    </li>
+    <% } %>
+  </ul>
+</div>
