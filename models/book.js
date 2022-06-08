@@ -12,7 +12,7 @@ var BookSchema = new Schema({
 
 // virtual for books url
 BookSchema.virtual("url").get(function () {
-  return "/catalog.book/" + this._id;
+  return "/catalog/book/" + this._id;
 });
 
 // export model

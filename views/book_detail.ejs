@@ -1,0 +1,26 @@
+<%- include('layout.ejs') %>
+<main>
+  <%= title %>
+  <p>
+    <strong>Author:</strong>
+    <a href=""><%= book.author.name %></a>
+  </p>
+  <p><strong>Summary: </strong> <%= book.summary %></p>
+  <p><strong>ISBN: </strong> <%= book.isbn %></p>
+  <p>
+    <strong>Genre: </strong>
+    <% for(let i = 0; i < book.genre.length; i++) { %>
+    <a href=""><%= i %></a>
+    <% } %>
+  </p>
+  <p>
+    <strong>Genre test: </strong>
+    <% book.genre.map( (x,i) => { %>
+        <%= console.log(x) %> 
+        <a href=<%= x.url %>><%= x.name %></a>
+        <% if (i < book.genre.length - 1) { %>
+            <span> | </span>    
+        <% } %>
+    <% }) %>
+  </p>
+</main>

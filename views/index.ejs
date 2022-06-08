@@ -6,26 +6,28 @@
   </head>
   <body>
     <%- include('layout.ejs') %>
-    <h1><%= title %></h1>
-    <p>
-      Welcome to Local Library, a very basic Express website developed as
-      a tutorial example on the Mozilla Dev Network
-    </p>
+    <main>
+      <h1><%= title %></h1>
+      <p>
+        Welcome to Local Library, a very basic Express website developed as a
+        tutorial example on the Mozilla Dev Network
+      </p>
 
-    <h2>Dynamic Content</h2>
+      <h2>Dynamic Content</h2>
       <p>title is: <%= title %></p>
       <% if(error !== null) { %>
-        <p>error</p>
+      <p>error</p>
       <% } else { %>
-        <p>the library has the following record counts: </p>
+      <p>the library has the following record counts:</p>
       <% } %>
 
-    <ul>
-      <li>Books <%= data.book_count %></li>
-      <li>Copies <%= data.book_instance_count %></li>
-      <li>Copies available <%= data.book_instance_available_count %></li>
-      <li>Authors <%= data.author_count %></li>
-      <li>Genres <%= data.genre_count %></li>
-    </ul>
+      <ul>
+        <li>Books <%= data.book_count %></li>
+        <li>Copies <%= data.book_instance_count %></li>
+        <li>Copies available <%= data.book_instance_available_count %></li>
+        <li>Authors <%= data.author_count %></li>
+        <li>Genres <%= data.genre_count %></li>
+      </ul>
+    </main>
   </body>
 </html>

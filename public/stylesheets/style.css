@@ -1,14 +1,21 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
 }
 
 a {
-  color: #00B7FF;
+  color: #00b7ff;
 }
 
 .sidebar-nav {
   margin-top: 20px;
   padding: 0;
   list-style: none;
+}
+
+.container_fluid,
+main {
+  border: 1px solid red;
 }
