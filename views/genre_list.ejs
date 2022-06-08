@@ -2,9 +2,9 @@
   <%- include('layout.ejs') %>
   <h1><%= title %></h1>
   <ul>
-    <% for(let genre of genre_list) { %>
+    <% for(let genre of genre_list) { %> 
     <li>
-      <a href="genre.url"><%= genre.name %></a>
+      <a href=<%= 'genre/' + genre._id %>><%= genre.name %></a>
     </li>
     <% } %>
   </ul>
