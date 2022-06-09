@@ -1,9 +1,9 @@
-<div>
-  <%- include('layout.ejs') %>
+<%- include('layout.ejs') %>
+<main>
   <h1><%= title %></h1>
   <% for(let val of bookinstance_list) { %>
   <li>
-    <a href="val.url"> <%= val.book.title %>: <%= val.imprint %> </a>
+    <a href=<%= val.url %>> <%= val.book.title %>: <%= val.imprint %> </a>
     <% if(val.status == 'Available') { %>
         <span class="text-success"><%= val.status %></span>
     <% } else if (val.status == 'Maintenance') { %>
@@ -16,4 +16,4 @@
     <% } %>
   </li>
   <% } %>
-</div>
+</main>

@@ -26,32 +26,32 @@ AuthorSchema.virtual("name").get(function () {
 
 // virtual for author's lifespan
 AuthorSchema.virtual("lifespan").get(function () {
+  const birth_formatted = DateTime.fromJSDate(
+    this.date_of_birth
+  ).toLocaleString(DateTime.DATE_MED);
+  const death_formatted = DateTime.fromJSDate(
+    this.date_of_birth
+  ).toLocaleString(DateTime.DATE_MED);
+
   var lifetime_string = "";
-  if (this.date_of_birth) {
-    lifetime_string = this.date_of_birth.getYear().toString();
-  }
+
+  this.date_of_birth == undefined
+    ? (lifetime_string += "???")
+    : (lifetime_string += birth_formatted);
+
   lifetime_string += " - ";
-  if (this.date_of_death) {
-    lifetime_string += this.date_of_death.getYear();
-  }
+  
+  this.date_of_death == undefined
+  ? (lifetime_string += "???")
+  : (lifetime_string += birth_formatted);
+
+  
   return lifetime_string;
 });
 
 // virtual for author's url
 AuthorSchema.virtual("url").get(function () {
   return "/catalog/author/" + this._id;
-});
-
-AuthorSchema.virtual("birth_formatted").get(function () {
-  return DateTime.fromJSDate(this.date_of_birth).toLocaleString(
-    DateTime.DATE_MED
-  );
-});
-
-AuthorSchema.virtual("death_formatted").get(function () {
-  return DateTime.fromJSDate(this.date_of_death).toLocaleString(
-    DateTime.DATE_MED
-  );
 });
 
 // export model

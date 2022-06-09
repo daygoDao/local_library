@@ -7,9 +7,7 @@
       <a href=<%= author.url %>>
         <%= author.name %> 
         | 
-        <%= author.date_of_birth == null ? '???' : author.birth_formatted %> 
-        - 
-        <%= author.date_of_death == null ? '???' : author.death_formatted %>
+        <%= author.lifespan %>
       </a>
     </li>
     <% } %>
