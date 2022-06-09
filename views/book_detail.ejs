@@ -9,18 +9,37 @@
   <p><strong>ISBN: </strong> <%= book.isbn %></p>
   <p>
     <strong>Genre: </strong>
-    <% for(let i = 0; i < book.genre.length; i++) { %>
-    <a href=""><%= i %></a>
-    <% } %>
-  </p>
-  <p>
-    <strong>Genre test: </strong>
     <% book.genre.map( (x,i) => { %>
-        <%= console.log(x) %> 
         <a href=<%= x.url %>><%= x.name %></a>
         <% if (i < book.genre.length - 1) { %>
             <span> | </span>    
         <% } %>
     <% }) %>
   </p>
+
+    <div>
+        <h4>Copies</h4>
+        <% if(book_instances.length == 0) { %> 
+            <p>There are no copies of this book in the library</p>
+        <% }  else { %>
+            <% for(let val of book_instances) { %>
+                <hr />
+                <% if (val.status == 'Available') { %>
+                    <p class="text-success"><%= val.status %></p>
+                <% } else if (val.status == 'Maintenance'){ %>
+                    <p class="text-danger"><%= val.status %></p>
+                <% } else { %>   
+                    <p class="text-warning"><%= val.status %></p>
+                <% } %>   
+
+                <p><strong>Imprint: </strong><%= val.imprint %></p>
+
+                <% if(val.status !== 'Available') { %>
+                    <p><strong>Due back:</strong> <%= val.due_back %></p>
+                <% } %>
+
+                <p><strong>Id:</strong> <a href=<%= val.url%>><%= val._id %></a></p>
+            <% } %>
+        <% } %>
+    </div>  
 </main>
