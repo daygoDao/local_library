@@ -59,6 +59,7 @@ exports.genre_create_get = function (req, res, next) {
   res.render("genre_form", { title: "Create Genre", genre: undefined, errors: undefined });
 };
 
+// Handle Genre create on POST.
 exports.genre_create_post =  [
 
   // Validate and sanitize the name field.
@@ -105,6 +106,7 @@ exports.genre_create_post =  [
     }
   }
 ];
+
 
 // Display Genre delete form on GET.
 exports.genre_delete_get = function (req, res) {

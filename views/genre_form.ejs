@@ -19,8 +19,8 @@
   
   <% if(errors) { %> 
     <ul>
-        <% for(let error in errors) { %>
-            <li><%= error.msg %></li>
+        <% for(let error of errors) { %>
+          <li><%= error.msg %></li>
         <% } %>
     </ul>
   <% } %>
