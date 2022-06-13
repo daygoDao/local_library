@@ -1,0 +1,56 @@
+<%- include('layout.ejs') %>
+<main>
+    <h1><%= title %></h1>
+    <form action="" method="POST">
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input 
+                type="text" 
+                name="title" 
+                id="title"
+                class="form-control"
+                placeholder="Name of book"
+                required="true"
+                value=<%= book === undefined ? '' : book.title %>>
+        </div>
+        <div class="form-group">
+            <label for="author">Author:</label>
+            <select 
+                type="select" 
+                name="author" 
+                id="author"
+                class="form-control"
+                placeholder="Select author"
+                required="true">
+                <% let authorsSorted = authors.sort((a,b) => {let textA = a.family_name.toUpperCase(); let textB = b.family_name.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;}) %>
+                <% for(let author of authorsSorted) { %> 
+                <% console.log(author.family_name) %>
+                    <% if(book !== undefined) { %> 
+                        <option 
+                            value=<%= author._id %>
+                            selected=<%= author._id.toString()===book.author._id.toString() ? 'selected' : false %>>
+                            <%= `${author.family_name}, ${author.first_name}` %>
+                        </option> 
+                    <% } else { %>
+                        <option value=<%= author._id %>>
+                            <%= `${author.family_name}, ${author.first_name}` %>
+                        </option>
+                    <% } %>
+                <% } %>
+
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="summary">Summary:</label>
+            <textarea 
+                name="summary" 
+                id="summary"
+                placeholder="Summary" 
+                cols="30" 
+                rows="10"
+                required="true">
+                <%= (book === undefined ? '' : book.summary) %>
+            </textarea>
+        </div>
+    </form>
+</main>
