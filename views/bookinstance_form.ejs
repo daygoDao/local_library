@@ -22,15 +22,48 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="due_back">Date when book is available</label>
-            <input 
+            <label for="imprint">Imprint:</label>
+            <input  
                 type="text" 
                 name="imprint" 
                 id="imprint"
                 class="form-control"
                 placeholder="Publisher and date information"
                 required="true"
-                value=<%= (undefined == bookinstance ? '' : bookinstance.due_back) %>>
+                value=<%= (undefined == bookinstance ? '' : bookinstance.imprint) %>>
         </div>
+        <div class="form-group">
+            <label for="due_back">Date when book is available</label>
+            <input 
+                type="date" 
+                name="due_back" 
+                id="due_back"
+                class="form-control"
+                value=<%= bookinstance === undefined ? '' : bookinstance.due_back %>>
+        </div>
+        <div class="form-group">
+            <label for="status">Status:</label>
+            <select 
+                class="form-control"
+                name="status" 
+                id="status"
+                required="true"
+                placeholder="Select status">
+                <option value="Maintenance">Maintenance</option>
+                <option value="Availavle">Available</option>
+                <option value="Loaned">Loaned</option>
+                <option value="Reserved">Reserved</option>
+            </select>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Submit</button>
     </form>
+
+    <% if(errors) { %>
+        <ul>
+            <% for(let error of errors) { %>
+                <li> <%= error.msg %></li>
+            <% } %>
+        </ul>
+    <% } %>
 </main>
