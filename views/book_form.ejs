@@ -28,9 +28,9 @@
                     <%# handle GET form, where book.author is an obj, and POST form, where it is a string %>
                     <% if(book !== undefined) { %> 
                         <option 
-                            value=<%= author._id %>
-                            selected=<%= author._id.toString()===book.author._id || author._id.toString() == book.author ? 'selected' : false %>>
-                            <%= `${author.family_name}, ${author.first_name}` %>
+                            value=<%= book.author._id %>
+                            selected=<%= author._id.toString()===book.author._id.toString() ? 'selected' : false %>>
+                            <%= `${book.author.family_name}, ${book.author.first_name}` %>
                         </option> 
                     <% } else { %>
                         <option value=<%= author._id %>>
@@ -38,7 +38,6 @@
                         </option>
                     <% } %>
                 <% } %>
-
             </select>
         </div>
         <div class="form-group">
@@ -62,13 +61,14 @@
                 value=<%= book === undefined ? '' : book.isbn %>>
         </div>
         <div>
-            <% for(genre of genres) { %> 
+            <% for(let genre of genres) { %> 
                 <div style="display: inline; padding-right: 10px;">
                     <input 
                         type="checkbox"
                         name="genre"
                         class="checkbox-input"
-                        id=<%= genre._id %>>
+                        id="<%= genre._id %>"
+                        value="<%= genre._id %>">
                     <label for=<%= genre._id %>><%= genre.name %></label>
                 </div>
             <% } %>
