@@ -24,11 +24,11 @@
                 required="true">
                 <% let authorsSorted = authors.sort((a,b) => {let textA = a.family_name.toUpperCase(); let textB = b.family_name.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;}) %>
                 <% for(let author of authorsSorted) { %> 
-                <% console.log(author.family_name) %>
+                    <%# handle GET form, where book.author is an obj, and POST form, where it is a string %>
                     <% if(book !== undefined) { %> 
                         <option 
                             value=<%= author._id %>
-                            selected=<%= author._id.toString()===book.author._id.toString() ? 'selected' : false %>>
+                            selected=<%= author._id.toString()===book.author._id || author._id.toString() == book.author ? 'selected' : false %>>
                             <%= `${author.family_name}, ${author.first_name}` %>
                         </option> 
                     <% } else { %>
