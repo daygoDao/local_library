@@ -61,6 +61,7 @@
                 value=<%= book === undefined ? '' : book.isbn %>>
         </div>
         <div>
+            <label>Genre:</label>
             <% for(let genre of genres) { %> 
                 <div style="display: inline; padding-right: 10px;">
                     <input 
@@ -68,7 +69,8 @@
                         name="genre"
                         class="checkbox-input"
                         id="<%= genre._id %>"
-                        value="<%= genre._id %>">
+                        value="<%= genre._id %>"
+                        <%= (book.genre.map(x => x.name).includes(genre.name) ? 'checked' : 'unchecked') %>>
                     <label for=<%= genre._id %>><%= genre.name %></label>
                 </div>
             <% } %>
