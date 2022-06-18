@@ -127,8 +127,16 @@ exports.bookinstance_delete_get = function (req, res, next) {
 };
 
 // Handle BookInstance delete on POST.
-exports.bookinstance_delete_post = function (req, res) {
-  res.send("NOT IMPLEMENTED: BookInstance delete POST");
+exports.bookinstance_delete_post = function (req, res, next) {
+  console.log(req.params.id)
+  BookInstance.findByIdAndRemove(req.params.id, function deleteBookInstance(err, results) {
+    if(err) {
+      console.log(err)
+    } else {
+      console.log('removed ' + results)
+      res.redirect('/catalog/bookinstances')
+    }
+  })
 };
 
 // Display BookInstance update form on GET.
