@@ -1,0 +1,15 @@
+<%- include('layout.ejs') %>
+<main>
+    <h1>Instance ID: <%= title %></h1>
+    <p>Are you sure you want to delete this instace?</p><form action="" method="POST">
+        <div class="form-group">
+            <input 
+                type="hidden" 
+                name="instanceId" 
+                id="instanceId"
+                required="true">
+        </div>
+
+        <button class="btn btn-primary" type="submit">DELETE</button>
+    </form>
+</main>

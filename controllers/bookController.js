@@ -224,6 +224,7 @@ exports.book_delete_get = function (req, res, next) {
 exports.book_delete_post = function (req, res, next) {
   BookInstance.find({ book: req.params.id }).exec((err, list_bookinstances) => {
     if (err) {
+      
       return next(err);
     }
     if (list_bookinstances.length > 0) {
