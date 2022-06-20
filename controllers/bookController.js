@@ -204,27 +204,37 @@ exports.book_create_post = [
 
 // Display book delete form on GET.
 exports.book_delete_get = function (req, res, next) {
-  BookInstance.find({ book: req.params.id }).exec((err, list_bookinstances) => {
-    if (err) {
-      return next(err);
+  async.parallel(
+    {
+      book: function (callback) {
+        Book.findById(req.params.id).exec(callback);
+      },
+      list_bookinstances: function (callback) {
+        BookInstance.find({ book: req.params.id }).exec(callback);
+      },
+    },
+    function (err, results) {
+      if (err) {
+        return next(err);
+      }
+      if (results.list_bookinstances == null || results.book == null) {
+        //no results
+        res.redirect("/catalog/books");
+      }
+      // success so render
+      res.render("book_delete", {
+        title: "Delete Book",
+        bookinstance_list: results.list_bookinstances,
+        book: results.book,
+      });
     }
-    if (list_bookinstances == null) {
-      //no results
-      res.redirect("/catalog/books");
-    }
-    // success so render
-    res.render("book_delete", {
-      title: "Delete Book",
-      bookinstance_list: list_bookinstances,
-    });
-  });
+  );
 };
 
 // Handle book delete on POST.
 exports.book_delete_post = function (req, res, next) {
   BookInstance.find({ book: req.params.id }).exec((err, list_bookinstances) => {
     if (err) {
-      
       return next(err);
     }
     if (list_bookinstances.length > 0) {
@@ -236,10 +246,13 @@ exports.book_delete_post = function (req, res, next) {
       return;
     } else {
       // book has no instances. delete obj and redirect to list of books
-      // Book.findByIdAndRemove(req.body.)
-      res.render("book_delete", {
-        title: "Delete Book",
-        bookinstance_list: list_bookinstances,
+      Book.findByIdAndRemove(req.body.bookid, function deleteBook(err) {
+        console.log(req.body);
+        if (err) {
+          return next(err);
+        }
+        // success
+        res.redirect("/catalog/books");
       });
     }
   });

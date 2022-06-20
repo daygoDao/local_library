@@ -2,7 +2,7 @@
 <main>
     <h1><%= title %></h1>
 
-    <% if (bookinstance_list !== null) { %> 
+    <% if (bookinstance_list.length > 0) { %> 
         <p>Delete the following book instances before attempting to delete this book</p>
         <div>
             <h4>Book Instances</h4>
@@ -20,18 +20,20 @@
                 <% } %>
             </dl>
         </div>
-        <% }  else { %>
-            <p>Are you sure you want to delete this Book?</p>
-            <form action="" method="POST">
-                <div class="form-group">
-                    <input 
-                        type="hidden" 
-                        name="bookid" 
-                        id="bookid"
-                        required="true">
-                </div>
-    
-                <button class="btn btn-primary" type="submit">DELETE</button>
-            </form>
+    <% }  else { %>
+        <p>Are you sure you want to delete this Book?</p>
+        <form action="" method="POST">
+            <div class="form-group">
+                <input 
+                    type="hidden" 
+                    name="bookid" 
+                    id="bookid"
+                    class="form-control"
+                    required="true"
+                    value="<%= book._id %>">
+            </div>
+
+            <button class="btn btn-primary" type="submit">DELETE</button>
+        </form>
     <% } %>
 </main>
