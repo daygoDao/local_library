@@ -63,17 +63,20 @@
         <div>
             <label>Genre:</label>
             <% for(let genre of genres) { %> 
+                <% if (genre != undefined) { %>
                 <div style="display: inline; padding-right: 10px;">
-                    <input 
-                        type="checkbox"
-                        name="genre"
-                        class="checkbox-input"
-                        id="<%= genre._id %>"
-                        value="<%= genre._id %>"
-                        <%= (book.genre.map(x => x.name).includes(genre.name) ? 'checked' : 'unchecked') %>>
-                    <label for=<%= genre._id %>><%= genre.name %></label>
-                </div>
+                        <input 
+                            type="checkbox"
+                            name="genre"
+                            class="checkbox-input"
+                            id="<%= genre._id %>"
+                            value="<%= genre._id %>"
+                            <%= book !== undefined ? (book.genre.map(x => x.name).includes(genre.name) ? 'checked' : 'unchecked') : 'unchecked' %>>
+                        <label for=<%= genre._id %>><%= genre.name %></label>
+                    </div>
+                <% } %>
             <% } %>
+            
         </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>
