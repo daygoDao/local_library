@@ -28,9 +28,9 @@
                     <%# handle GET form, where book.author is an obj, and POST form, where it is a string %>
                     <% if(book !== undefined) { %> 
                         <option 
-                            value=<%= book.author._id %>
-                            selected=<%= author._id.toString()===book.author._id.toString() ? 'selected' : false %>>
-                            <%= `${book.author.family_name}, ${book.author.first_name}` %>
+                            value=<%= author._id %>
+                            <%= author._id.toString()===book.author._id.toString() ? 'selected' : false %>>
+                            <%= `${author.family_name}, ${author.first_name}` %>
                         </option> 
                     <% } else { %>
                         <option value=<%= author._id %>>
@@ -62,8 +62,8 @@
         </div>
         <div>
             <label>Genre:</label>
+
             <% for(let genre of genres) { %> 
-                <% if (genre != undefined) { %>
                 <div style="display: inline; padding-right: 10px;">
                         <input 
                             type="checkbox"
@@ -71,10 +71,9 @@
                             class="checkbox-input"
                             id="<%= genre._id %>"
                             value="<%= genre._id %>"
-                            <%= book !== undefined ? (book.genre.map(x => x.name).includes(genre.name) ? 'checked' : 'unchecked') : 'unchecked' %>>
+                            <%= book !== undefined ? (book.genre.map(x => x.toString()).includes(genre._id.toString()) ? 'checked' : 'unchecked') : 'unchecked' %>>                        
                         <label for=<%= genre._id %>><%= genre.name %></label>
                     </div>
-                <% } %>
             <% } %>
             
         </div>
