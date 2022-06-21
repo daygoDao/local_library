@@ -192,7 +192,6 @@ exports.author_update_get = function (req, res, next) {
     if(results == null) {
       res.redirect("/catalog/authors")
     }
-    console.log(results)
 
     // success so render
     res.render('author_form', {

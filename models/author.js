@@ -54,5 +54,13 @@ AuthorSchema.virtual("url").get(function () {
   return "/catalog/author/" + this._id;
 });
 
+AuthorSchema.virtual("form_birth_formatted").get(function () {
+  return `${this.date_of_birth.getFullYear()}-${(this.date_of_birth.getMonth() + 1).toString().padStart(2, "0")}-${this.date_of_birth.getDate().toString().padStart(2, "0")}`
+})
+
+AuthorSchema.virtual("form_death_formatted").get(function () {
+  return `${this.date_of_death.getFullYear()}-${(this.date_of_death.getMonth() + 1).toString().padStart(2, "0")}-${this.date_of_death.getDate().toString().padStart(2, "0")}`
+})
+
 // export model
 module.exports = mongoose.model("Author", AuthorSchema);

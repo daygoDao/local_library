@@ -31,7 +31,7 @@
             name="date_of_birth" 
             id="date_of_birth" 
             class="form-control" 
-            value=<%= undefined==author ? '' : author.date_of_birth %>
+            value=<%= undefined==author ? '' : author.form_birth_formatted %>
         >
 
         <label for="date_of_death">Date of death:</label>
@@ -40,7 +40,7 @@
             name="date_of_death" 
             id="date_of_death"
             class="form-control"
-            value=<%= author===undefined ? '' : author.date_of_death %>>
+            value=<%= author===undefined ? '' : author.form_death_formatted %>>
     </div>
     <button class="btn btn-primary" type="submit">Submit</button>
   </form>
