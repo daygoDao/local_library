@@ -2,6 +2,8 @@ var BookInstance = require("../models/bookinstance");
 var Book = require("../models/book");
 const { body, validationResult } = require("express-validator");
 
+const async = require("async")
+
 // Display list of all BookInstances.
 exports.bookinstance_list = (req, res, next) => {
   BookInstance.find()
@@ -114,34 +116,62 @@ exports.bookinstance_create_post = [
 
 // Display BookInstance delete form on GET.
 exports.bookinstance_delete_get = function (req, res, next) {
-  BookInstance.find({instance: req.params.id}).exec((err, results) => {
-    if(err) { return next(err); }
-    if(results == null) {
-      res.redirect("/catalog/bookinstance")
+  BookInstance.find({ instance: req.params.id }).exec((err, results) => {
+    if (err) {
+      return next(err);
+    }
+    if (results == null) {
+      res.redirect("/catalog/bookinstance");
     }
     // success, so render
-    res.render('bookinstance_delete', {
-      title: req.params.id  
-    })
-  })
+    res.render("bookinstance_delete", {
+      title: req.params.id,
+    });
+  });
 };
 
 // Handle BookInstance delete on POST.
 exports.bookinstance_delete_post = function (req, res, next) {
-  console.log(req.params.id)
-  BookInstance.findByIdAndRemove(req.params.id, function deleteBookInstance(err, results) {
-    if(err) {
-      console.log(err)
-    } else {
-      console.log('removed ' + results)
-      res.redirect('/catalog/bookinstances')
+  BookInstance.findByIdAndRemove(
+    req.params.id,
+    function deleteBookInstance(err, results) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("removed " + results);
+        res.redirect("/catalog/bookinstances");
+      }
     }
-  })
+  );
 };
 
 // Display BookInstance update form on GET.
-exports.bookinstance_update_get = function (req, res) {
-  res.send("NOT IMPLEMENTED: BookInstance update GET");
+exports.bookinstance_update_get = function (req, res, next) {
+  // get book list and book instance
+  async.parallel(
+    {
+      books: function (callback) {
+        Book.find(callback);
+      },
+      instance: function (callback) {
+        BookInstance.findById(req.params.id).exec(callback);
+      },
+    },
+    function (err, results) {
+      if (err) {
+        return next(err);
+      }
+
+      // success so render
+      res.render("bookinstance_form", {
+        title: "Update BookInstance",
+        book_list: results.books,
+        selected_book: results.instance.book.toString(),
+        errors: [],
+        bookinstance: results.instance,
+      });
+    }
+  );
 };
 
 // Handle bookinstance update on POST.
