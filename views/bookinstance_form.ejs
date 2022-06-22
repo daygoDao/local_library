@@ -39,8 +39,9 @@
                 name="due_back" 
                 id="due_back"
                 class="form-control"
+                <% let date = undefined %>
                 <% if(bookinstance !== undefined) { %>
-                    <% const date = `${bookinstance.due_back.getFullYear()}-${(bookinstance.due_back.getMonth() + 1 ).toString().padStart(2, '0')}-${bookinstance.due_back.getDate().toString().padStart(2, '0')}` %>
+                    <% date = `${bookinstance.due_back.getFullYear()}-${(bookinstance.due_back.getMonth() + 1 ).toString().padStart(2, '0')}-${bookinstance.due_back.getDate().toString().padStart(2, '0')}` %>
                     <% console.log(bookinstance == undefined ? '' : date) %>
                 <% } %>
                 value=<%= bookinstance == undefined ? '' : date %>>
