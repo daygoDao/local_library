@@ -3,7 +3,6 @@ var Book = require("../models/book");
 var async = require("async");
 var mongoose = require("mongoose");
 const { body, validationResult } = require("express-validator");
-const genre = require("../models/genre");
 
 // Display list of all Genre.
 exports.genre_list = function (req, res, next) {
@@ -115,7 +114,7 @@ exports.genre_delete_get = function (req, res, next) {
   async.parallel(
     {
       genre_books: function (callback) {
-        Book.find({ 'genre': req.params.id }).exec(callback);
+        Book.find({ genre: req.params.id }).exec(callback);
       },
       genre: function (callback) {
         Genre.findById(req.params.id).exec(callback);
@@ -144,12 +143,13 @@ exports.genre_delete_post = function (req, res, next) {
   async.parallel(
     {
       genre_books: function (callback) {
-        Book.find({ 'genre': req.params.id }).exec(callback);
+        Book.find({ genre: req.params.id }).exec(callback);
       },
       genre: function (callback) {
         Genre.findById(req.params.id).exec(callback);
       },
-    }, function (err, results) {
+    },
+    function (err, results) {
       if (err) {
         return next(err);
       }
@@ -168,7 +168,7 @@ exports.genre_delete_post = function (req, res, next) {
             return next(err);
           }
           // success - go to genres list
-          console.log('winner')
+          console.log("winner");
           res.redirect("/catalog/genres");
         });
       }
@@ -177,11 +177,62 @@ exports.genre_delete_post = function (req, res, next) {
 };
 
 // Display Genre update form on GET.
-exports.genre_update_get = function (req, res) {
-  res.send("NOT IMPLEMENTED: Genre update GET");
+exports.genre_update_get = function (req, res, next) {
+  // get genre
+  Genre.findById(req.params.id).exec((err, genre) => {
+    if (err) {
+      return next(err);
+    }
+
+    res.render("genre_form", {
+      title: "Update Genre",
+      genre: genre,
+      errors: undefined,
+    });
+  });
 };
 
 // Handle Genre update on POST.
-exports.genre_update_post = function (req, res) {
-  res.send("NOT IMPLEMENTED: Genre update POST");
-};
+exports.genre_update_post = [
+  //validate and sanitize
+  body("name", "Genre must contain a least 3 characters")
+    .trim()
+    .isLength({ min: 3 })
+    .escape(),
+
+  //process reqeust after validation and sani
+  (req, res, next) => {
+    //extract validation errs freom a req
+    const errors = validationResult(req);
+
+    //create a genre obj wi escaped and trimmed data and old _id
+    var genre = new Genre({
+      name: req.body.name,
+      _id: req.params.id,
+    });
+
+    if (!errors.isEmpty()) {
+      // there are err, render the form again w/ sani values and err msgs
+      res.render("genre_form", {
+        title: "Update Genre",
+        genre: genre,
+        errors: errors.array(),
+      });
+      return;
+    } else {
+      //data valid, update record
+      Genre.findByIdAndUpdate(
+        req.params.id,
+        genre,
+        {},
+        function (err, thegenre) {
+          if (err) {
+            return next(err);
+          }
+          //success
+          res.redirect(thegenre.url);
+        }
+      );
+    }
+  },
+];
