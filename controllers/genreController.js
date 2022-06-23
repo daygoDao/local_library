@@ -3,6 +3,7 @@ var Book = require("../models/book");
 var async = require("async");
 var mongoose = require("mongoose");
 const { body, validationResult } = require("express-validator");
+const genre = require("../models/genre");
 
 // Display list of all Genre.
 exports.genre_list = function (req, res, next) {
@@ -56,7 +57,11 @@ exports.genre_detail = function (req, res, next) {
 
 // Display Genre create form on GET.
 exports.genre_create_get = function (req, res, next) {
-  res.render("genre_form", { title: "Create Genre", genre: undefined, errors: undefined });
+  res.render("genre_form", { 
+    title: "Create Genre", 
+    genre: undefined, 
+    errors: undefined 
+  });
 };
 
 // Handle Genre create on POST.
@@ -109,8 +114,31 @@ exports.genre_create_post =  [
 
 
 // Display Genre delete form on GET.
-exports.genre_delete_get = function (req, res) {
-  res.send("NOT IMPLEMENTED: Genre delete GET");
+exports.genre_delete_get = function (req, res, next) {
+  async.parallel(
+    {
+      books: function (callback) {
+        Book.find( {genre: req.params.id }).exec(callback);
+      },
+      genre: function (callback) {
+        Genre.findById(req.params.id)
+      }
+    },
+    function (err, results) {
+      if (err) { return next(err); }
+      if (results.books == null) {
+        //no results
+        res.redirect('/catalog/genres');
+      }
+      // sucesss so render
+      res.render("genre_delete", {
+        title: "Delete Genre",
+        genre: results.genre,
+        books: results.books
+      })
+    }
+  )
+
 };
 
 // Handle Genre delete on POST.
