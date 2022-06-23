@@ -1,4 +1,23 @@
 <%- include("layout.ejs") %>
 <main>
     <h1><%= title %></h1>
+    <% if(books.length > 0) { %>
+         <p>please remove all books associated with this genre before deleting</p>
+    <% } else { %>
+        <p>Are you sure you want to delete: <strong><%= genre.name %></strong></p>
+        <form action="" method="POST">
+            <div class="form-group">
+                <input 
+                    type="hidden" 
+                    name="id" 
+                    id="id"
+                    class="form-control"
+                    required="true"
+                    <% console.log(genre._id) %>
+                    value=<%= genre._id%>>
+            </div>
+
+            <button class="btn btn-primary" type="submit">DELETE</button>
+        </form>
+    <% } %>
 </main>
