@@ -3,6 +3,17 @@
     <h1><%= title %></h1>
     <% if(books.length > 0) { %>
          <p>please remove all books associated with this genre before deleting</p>
+         <h4>Books</h4>
+         <div>
+            <dl>
+                <% for(let book of books) { %> 
+                    <dt>
+                        <a href=<%= book.url%>><%= book.title %></a>
+                    </dt>
+                    <dd><%= book.summary %></dd>
+                <% } %>
+            </dl>
+         </div>
     <% } else { %>
         <p>Are you sure you want to delete: <strong><%= genre.name %></strong></p>
         <form action="" method="POST">
