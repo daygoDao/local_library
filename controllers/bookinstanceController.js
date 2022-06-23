@@ -195,12 +195,12 @@ exports.bookinstance_update_post = [
 
     // Create a BookInstance object with escaped and trimmed data.
     // update!!! not create 
-    console.log(req.body)
     var bookinstance = new BookInstance({
       book: req.body.book,
       imprint: req.body.imprint,
       status: req.body.status,
       due_back: req.body.due_back,
+      _id: req.params.id,
     });
 
     if (!errors.isEmpty()) {
@@ -221,12 +221,7 @@ exports.bookinstance_update_post = [
       return;
     } else {
       // Data from form is valid.
-      BookInstance.findByIdAndUpdate(req.params.id, { 
-        book: req.body.book,
-        imprint: req.body.imprint,
-        status: req.body.status,
-        due_back: req.body.due_back,
-      }, {new: true}, function(err, results) {
+      BookInstance.findByIdAndUpdate(req.params.id, bookinstance, {}, function(err, results) {
         if(err) { return next(err); }
         // success - redirect to updated record
         res.redirect(results.url)
